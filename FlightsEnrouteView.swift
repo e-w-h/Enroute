@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct FlightSearch {
     var destination: String
     var origin: String?
@@ -30,11 +28,14 @@ struct FlightsEnrouteView: View {
     
     var filter: some View {
         Button("Filter") {
-            self.showFilter = true
+            showFilter = true
         }
+        // Anytime we set the binding to true the sheet is brought up
+        // When the sheet is clicked away the binding is set to false
         .sheet(isPresented: $showFilter) {
             // isPresented allows for a 'Done' Button on the sheet rather than just swiping down
-            FilterFlights(flightSearch: self.$flightSearch, isPresented: self.$showFilter)
+            // Calling a binding to flightsearch causes it to perform a new flightsearch
+            FilterFlights(flightSearch: $flightSearch, isPresented: $showFilter)
         }
     }
     

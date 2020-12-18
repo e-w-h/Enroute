@@ -12,11 +12,13 @@ struct FilterFlights: View {
     @ObservedObject var allAirports = Airports.all
     @ObservedObject var allAirlines = Airlines.all
 
+    // Binding to flight search struct
     @Binding var flightSearch: FlightSearch
     @Binding var isPresented: Bool
     
     @State private var draft: FlightSearch
     
+    // Need an initializer with bindings as it's arguments
     init(flightSearch: Binding<FlightSearch>, isPresented: Binding<Bool>) {
         _flightSearch = flightSearch
         _isPresented = isPresented
@@ -24,6 +26,7 @@ struct FilterFlights: View {
     }
     
     var body: some View {
+        // Easy way to get two buttons on the top corners even if not used for navigating
         NavigationView {
             Form {
                 Picker("Destination", selection: $draft.destination) {
@@ -50,13 +53,17 @@ struct FilterFlights: View {
         }
     }
     
+    // Done and cancel allow the updates to happen after the button is tapped
+    // instead of updating the sheet every time a picker is changed
     var cancel: some View {
         Button("Cancel") {
+            // Simply dismisses by changing the binding
             self.isPresented = false
         }
     }
     var done: some View {
         Button("Done") {
+            // Copy the binding values to the draft variable
             self.flightSearch = self.draft
             self.isPresented = false
         }
